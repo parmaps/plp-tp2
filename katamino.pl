@@ -20,3 +20,20 @@ tablero(K, T) :-
     K > 0,
     length(T, 5),               
     maplist(crear_fila(K), T).
+
+
+% Ejercicio 3: Tamaño
+
+% filas_mismo_largo(+M, -C):
+filas_mismo_largo([], _).
+filas_mismo_largo([PrimeraFila | RestoFilas], C) :-
+    length(PrimeraFila, C),
+    filas_mismo_largo(RestoFilas, C).
+
+% tamaño(+M, -F, -C)
+tamaño([], 0, 0).
+tamaño(M, F, C) :-
+    M = [PrimeraFila | _],
+    length(M, F),    
+    length(PrimeraFila, C),
+    filas_mismo_largo(M, C).
