@@ -37,3 +37,16 @@ tamaño(M, F, C) :-
     length(M, F),    
     length(PrimeraFila, C),
     filas_mismo_largo(M, C).
+
+
+% Ejercicio 4: Coordenadas
+
+%coordenadas(+T, -IJ) :-
+coordenadas(T, (I, J)) :-
+    T = [PrimeraFila | _],
+    length(PrimeraFila, K),
+    between(1, 5, I),
+    between(1, K, J).
+
+
+
