@@ -112,7 +112,12 @@ poda(sinPoda,_).
 %* Ejercicio 9: Llenar Tablero
 
 % llenarTablero(+Poda, +Columnas, -Tablero)
-llenarTablero(P, C, T) :- tablero(C,T), not((maplist(ground,T))), kPiezas(C,L), poda(P, T), ubicarPiezas(T,P,L2).
+llenarTablero(P, C, T) :- 
+    tablero(C,T), 
+    not((maplist(ground,T))), 
+    kPiezas(C,L), 
+    poda(P, T), 
+    ubicarPiezas(T,P,L).
 
 %* Ejercicio 10: Medición
 
