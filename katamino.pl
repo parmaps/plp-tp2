@@ -23,16 +23,16 @@ sublista(Descartar, Tomar, [_|LS], R) :- Descartar>0, D2 is Descartar-1, sublist
 %     maplist(esFilaK(K), T). %! Se puede? Consultar.
 
 %* tablero(+K, -T)
-tablero(K,T):- K>0,length(T,5),todasListasMismoLargo(T,K). %!por si va sin metapredicados
+tablero(K,T):- K>0,length(T,5),sublistasMismoLargo(T,K). %!por si va sin metapredicados
 
 % tablero(0,[]).
 % tablero(K,[H|T]):-K>0,length(T,5),length(H,K),tablero(K,T).
 
-%* todasListasMismoLargo(+T, -K):
-todasListasMismoLargo([], _).
-todasListasMismoLargo([H |T],K) :-
-    length(H, K),
-    todasListasMismoLargo(T, K).
+%* sublistasMismoLargo(+T, -K):
+sublistasMismoLargo([], _).
+sublistasMismoLargo([H |T],K) :-
+    length(H, K), %aca le digo que H es una lista..
+    sublistasMismoLargo(T, K).
 
 %* Ejercicio 3: Tamaño
 
@@ -73,5 +73,18 @@ partesOrdenadas([_|T], R) :- partesOrdenadas(T, R).
 
 %* Ejercicio 6: Seccion Tablero
 
+
 %seccionTablero(+T,+ALTO, +ANCHO, +IJ, ?ST)
-% seccionTablero(T,ALTO, ANCHO, IJ, ST):-
+% seccionTablero([H|T],ALTO, ANCHO, (I,J), ST):- length(H,K),ANCHO =< K,sublista(A,ALTO,[H|T],SL1),anchoTablero(SL1,K,ANCHO,ST).
+% sublista(+Descartar, +Tomar, +L, -R)
+% seccionTablero(T, ALTO, ANCHO, (I,J), ST):- sublista(I, ALTO, T, ST1), anchoTablero(ST1, J, ANCHO, ST).
+
+
+% anchoTablero([], _, _, []).
+% anchoTablero([H|T], I, ANCHO, [L1|L2]) :- sublista(I, ANCHO, H, L1), anchoTablero(T, I, ANCHO, L2).
+
+seccionTablero(T, ALTO, ANCHO, (I,J), ST):- I0 is I-1,J0 is J-1,sublista(I0, ALTO, T, ST1), anchoTablero(ST1, J0, ANCHO, ST).
+
+%anchoTablero(+T, +J, +ANCHO, -L)
+anchoTablero([], _, _, []).
+anchoTablero([H|T], I, ANCHO, [L1|L2]) :- sublista(I, ANCHO, H, L1), anchoTablero(T, I, ANCHO, L2).
