@@ -108,3 +108,31 @@ ubicarPiezas(T, P, [H|R]):-ubicarPieza(T,H),ubicarPiezas(T,P,R).
 % poda(+P,+T)
 poda(sinPoda,_).
 % poda(P,T)
+
+%* Ejercicio 9: Llenar Tablero
+
+% llenarTablero(+Poda, +Columnas, -Tablero)
+llenarTablero(P, C, T) :- tablero(C,T), not((maplist(ground,T))), kPiezas(C,L), poda(P, T), ubicarPiezas(T,P,L2).
+
+%* Ejercicio 10: Medición
+
+cantSoluciones(Poda, Columnas, N) :-
+                                    findall(T, llenarTablero(Poda, Columnas, T), TS),
+                                    length(TS, N).
+
+% ?- time(cantSoluciones(sinPoda, 3, N)).
+% 21,394,045 inferences, 0.771 CPU in 0.774 seconds (100% CPU, 27748693 Lips)
+% N = 28.
+
+% ?- time(cantSoluciones(sinPoda, 4, N)).
+% 814,452,007 inferences, 28.989 CPU in 29.095 seconds (100% CPU, 28095442 Lips)
+% N = 200.
+
+%* Ejercicio 11: Optimización
+
+poda(podaMod5, T) :- todosGruposLibresModulo5(T).
+
+todosGruposLibresModulo5(T) :-  
+
+%coordenadaLibre(+C, +T)
+coordenadaLibre(C, T) :- 
