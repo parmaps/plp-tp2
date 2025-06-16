@@ -96,3 +96,15 @@ ubicarPieza(T, I) :-pieza(I,[H|RESTO]),coordenadas(T,C),
                     length([H|RESTO],ALTO),
                     length(H,ANCHO),
                     seccionTablero(T,ALTO,ANCHO,C,[H|RESTO]).
+
+
+%* Ejercicio 8: Ubicar piezas
+% ubicarPiezas(+Tablero, +Poda, +Identificadores)
+
+ubicarPiezas(_, _, []).
+ubicarPiezas(T, P, [H|R]):-ubicarPieza(T,H),ubicarPiezas(T,P,R).
+
+
+% poda(+P,+T)
+poda(sinPoda,_).
+% poda(P,T)
