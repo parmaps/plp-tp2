@@ -2,51 +2,61 @@
 
 % Ejercicio 1: Sublista
 % sublista(+Descartar, +Tomar, +L, -R)
-sublista(Descartar, Tomar, L, R) :-
-    append(Prefijo, Sufijo, L),
-    length(Prefijo, Descartar),
-    append(R, _, Sufijo),
-    length(R, Tomar). 
+% sublista(Descartar, Tomar, L, R) :-
+%     append(Prefijo, Sufijo, L),
+%     length(Prefijo, Descartar),
+%     append(R, _, Sufijo),
+%     length(R, Tomar).
 
+%! Lo veo bien, hay que preguntar cual esta mas acertada con respecto al paradigma
 
-% Ejercicio 2: Tablero
+%* sublista(+Descartar, +Tomar, +L, -R)
+sublista(0, Tomar, L, R) :- length(R,Tomar), append(R,_,L).
+sublista(Descartar, Tomar, [_|LS], R) :- Descartar>0, D2 is Descartar-1, sublista(D2, Tomar, LS, R).
 
-% crear_fila(+K, -Fila)
-crear_fila(K, Fila) :-    
-    length(Fila, K). 
+%* Ejercicio 2: Tablero
 
-% tablero(+K, -T) 
-tablero(K, T) :-
-    K > 0,
-    length(T, 5),               
-    maplist(crear_fila(K), T).
+% tablero(+K, -T)
+% tablero(K, T) :-
+%     K > 0,
+%     length(T, 5),
+%     maplist(esFilaK(K), T). %! Se puede? Consultar.
 
+%* tablero(+K, -T)
+tablero(K,T):- K>0,length(T,5),todasListasMismoLargo(T,K). %!por si va sin metapredicados
 
-% Ejercicio 3: Tamaño
+% tablero(0,[]).
+% tablero(K,[H|T]):-K>0,length(T,5),length(H,K),tablero(K,T).
 
-% filas_mismo_largo(+M, -C):
-filas_mismo_largo([], _).
-filas_mismo_largo([PrimeraFila | RestoFilas], C) :-
-    length(PrimeraFila, C),
-    filas_mismo_largo(RestoFilas, C).
+%* todasListasMismoLargo(+T, -K):
+todasListasMismoLargo([], _).
+todasListasMismoLargo([H |T],K) :-
+    length(H, K),
+    todasListasMismoLargo(T, K).
 
-% tamaño(+M, -F, -C)
-tamaño([], 0, 0).
-tamaño(M, F, C) :-
-    M = [PrimeraFila | _],
-    length(M, F),    
-    length(PrimeraFila, C),
-    filas_mismo_largo(M, C).
+%* Ejercicio 3: Tamaño
 
+%* tamaño(+M, -F, -C)
+tamano([[]], 0, 0).
+tamano([H|T], F, C) :- length([H|T], F), length(H, C).
 
-% Ejercicio 4: Coordenadas
+%* Ejercicio 4: Coordenadas
 
-%coordenadas(+T, -IJ) :-
-coordenadas(T, (I, J)) :-
-    T = [PrimeraFila | _],
-    length(PrimeraFila, K),
+%*coordenadas(+T, -IJ) :-
+coordenadas([H| _], (I, J)) :-
+    length(H, K),
     between(1, 5, I),
     between(1, K, J).
 
+%* Ejercicio 5: K-piezas
+kPiezas(0, []).
+kPiezas(K,P) :- K>0, nombrePiezas(L),length(L,NL),between(0,NL,N),
+                    sublista(N,K,L,P). % Va por aca pero todavia falta, ya que sublista saca solo los primeros elementos. sublistaBetween..?
+%* sublista(+Descartar, +Tomar, +L, -R)
 
+% L es fija,
 
+%* Ejercicio 6: Seccion Tablero
+
+%seccionTablero(+T,+ALTO, +ANCHO, +IJ, ?ST)
+% seccionTablero(T,ALTO, ANCHO, IJ, ST):-
