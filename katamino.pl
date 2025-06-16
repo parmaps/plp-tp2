@@ -55,13 +55,20 @@ coordenadas([H| _], (I, J)) :-
 %                    sublista(N,K,L,P). % Va por aca pero todavia falta, ya que sublista saca solo los primeros elementos. sublistaBetween..
 
 %kPiezas(+K,-PS)
-kPiezas(K, PS) :- K > 0, nombrePiezas(L), combinacionesEnOrden(K, L, PS).
+% kPiezas(K, PS) :- K > 0, nombrePiezas(L), combinacionesEnOrden(K, L, PS).
 
 %combinacionesPosibles(+KTomo,+Lista,-Combi)
-combinacionesEnOrden(0,_,[]).
-combinacionesEnOrden(K,[H|T],[H|C]) :- K > 0, length(T,NL), K1 is K-1, NL >= K1, combinacionesEnOrden(K1,T,C).
-combinacionesEnOrden(K,[_|T],C) :- K > 0, length(T,NL), NL >= K, combinacionesEnOrden(K,T,C).
+% combinacionesEnOrden(0,_,[]).
+% combinacionesEnOrden(K,[H|T],[H|C]) :- K > 0, length(T,NL), K1 is K-1, NL >= K1, combinacionesEnOrden(K1,T,C).
+% combinacionesEnOrden(K,[_|T],C) :- K > 0, length(T,NL), NL >= K, combinacionesEnOrden(K,T,C).
 
+%*kPiezas(+K,-PS)
+kPiezas(K,PS) :- nombrePiezas(L), partesOrdenadas(L, PS), length(PS, K). 
+
+% partesOrdenadas (+XS, -YS)
+partesOrdenadas([], []).
+partesOrdenadas([H|T], [H|R]) :- partesOrdenadas(T, R).
+partesOrdenadas([_|T], R) :- partesOrdenadas(T, R).
 % L es fija,
 
 %* Ejercicio 6: Seccion Tablero
