@@ -88,3 +88,11 @@ seccionTablero(T, ALTO, ANCHO, (I,J), ST):- I0 is I-1,J0 is J-1,sublista(I0, ALT
 %anchoTablero(+T, +J, +ANCHO, -L)
 anchoTablero([], _, _, []).
 anchoTablero([H|T], I, ANCHO, [L1|L2]) :- sublista(I, ANCHO, H, L1), anchoTablero(T, I, ANCHO, L2).
+
+
+%* Ejercicio 7: Ubicar pieza
+% ubicarPieza(+Tablero, +Identificador)
+ubicarPieza(T, I) :-pieza(I,[H|RESTO]),coordenadas(T,C),
+                    length([H|RESTO],ALTO),
+                    length(H,ANCHO),
+                    seccionTablero(T,ALTO,ANCHO,C,[H|RESTO]).
