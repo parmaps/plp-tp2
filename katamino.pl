@@ -49,10 +49,18 @@ coordenadas([H| _], (I, J)) :-
     between(1, K, J).
 
 %* Ejercicio 5: K-piezas
-kPiezas(0, []).
-kPiezas(K,P) :- K>0, nombrePiezas(L),length(L,NL),between(0,NL,N),
-                    sublista(N,K,L,P). % Va por aca pero todavia falta, ya que sublista saca solo los primeros elementos. sublistaBetween..?
-%* sublista(+Descartar, +Tomar, +L, -R)
+%kPiezas(0, []).
+%kPiezas(K,P) :- K>0, nombrePiezas(L),length(L,NL),NL >= K,
+%                    between(0,NL,N),
+%                    sublista(N,K,L,P). % Va por aca pero todavia falta, ya que sublista saca solo los primeros elementos. sublistaBetween..
+
+%kPiezas(+K,-PS)
+kPiezas(K, PS) :- K > 0, nombrePiezas(L), combinacionesEnOrden(K, L, PS).
+
+%combinacionesPosibles(+KTomo,+Lista,-Combi)
+combinacionesEnOrden(0,_,[]).
+combinacionesEnOrden(K,[H|T],[H|C]) :- K > 0, length(T,NL), K1 is K-1, NL >= K1, combinacionesEnOrden(K1,T,C).
+combinacionesEnOrden(K,[_|T],C) :- K > 0, length(T,NL), NL >= K, combinacionesEnOrden(K,T,C).
 
 % L es fija,
 
