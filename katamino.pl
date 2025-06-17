@@ -14,6 +14,15 @@
 sublista(0, Tomar, L, R) :- length(R,Tomar), append(R,_,L).
 sublista(Descartar, Tomar, [_|LS], R) :- Descartar>0, D2 is Descartar-1, sublista(D2, Tomar, LS, R).
 
+%El predicado sublista no es reversible en el primer argumento porque requiere que Descartar 
+%este si o si instanciado para que pueda ser utilizado tanto en el operador aritmético (>) como 
+%en el no arimético (is).
+
+%Por otro lado, sublista (tecnicamente) es reversible en R. Las funciones length y append son reversibles en R
+%pueden o no estar instanciadas en R teniendo en cuenta +Tomar y +L. 
+
+%QUE PASA ACA? sublista(T,3,[a,b,c,d,e,f],[c,d,e]).
+
 %* Ejercicio 2: Tablero
 
 % tablero(+K, -T)
@@ -141,3 +150,4 @@ todosGruposLibresModulo5(T) :-
 
 %coordenadaLibre(+C, +T)
 coordenadaLibre(C, T) :- 
+
