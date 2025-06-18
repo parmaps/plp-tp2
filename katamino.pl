@@ -9,6 +9,33 @@ sublista(Descartar, Tomar, L, R) :-
     append(R, _, Sufijo),
     length(R, Tomar).
 
+%Revesibilidad
+%El predicado sublista es reversible en sus argumentos Descartar y R, si es que Tomar y L están instanciados.
+%Teniendo en cuenta que sublista usa predicados append y length, ambos reversibles, no hay problema si 
+%Descartar y R se instancian o no.
+
+%Caso) sublista(-Descartar, +Tomar, +L, -R)
+%Cuando se ejecuta length(Prefijo, Descartar), se generan valores posibles de Prefijos de la lista L de longitud
+%Descartar. Entonces con append(Prefijo, Sufijo, L) se obtienen los Sufijos que resultan de sacar esos 
+%elementos del Prefijo. Luego, con append(R, _, Sufijo) se instancian todas las posibles sublistas R y se 
+%corrobora con length(R, Tomar) que efectivamente esta sublista tome la cantidad elementos que se pasa como 
+%argumento. Por lo tanto, cuando Descartar y R no estan instanciados se pueden obtener varias soluciones 
+%posibles tomando de L la cantidad de elementos que pide Tomar.
+
+%Caso) sublista(-Descartar, +Tomar, +L, +R) 
+%Si R si se encuentra instanciado, el predicado append(R, _, Sufijo) verifica si R es un posible Sufijo de L 
+%y si cumple con la longitud que pide Tomar mediante length(R, Tomar). A partir de ese Sufijo se obtiene el 
+%Prefijo con append(Prefijo, Sufijo, L) y con length(Prefijo, Descartar) instancia en Descartar la cantidad de
+%elementos que deben eliminarse al inicio de L para que R sea una sublista que cumple lo especificado. 
+%Con esta instanciación de sublista, se obtiene un solo resultado que va a ser el valor de Descartar.
+
+%Caso) sublista(+Descartar, +Tomar, +L, +R)
+%Con Descartar y R instanciados, el predicado simplemente verifica que R sea resultado de Descartar y Tomar 
+%elementos de la lista L. Primero, append(Prefijo, Sufijo, L) genera posibles particiones de L y 
+%length(Prefijo, Descartar) asegura Prefijo que se va a eliminar sea del tamaño pedido. Luego, 
+%append(R, _, Sufijo) se comprueba que R este contenido al inicio del Sufijo y length(R, Tomar) confirma 
+%que la sublista sea de la longitud correspondiente a Tomar. Por lo tanto, tiene éxito si se cumplen con las 
+%condiciones del argumento.
 
 
 %* Ejercicio 2: Tablero
@@ -17,7 +44,7 @@ sublista(Descartar, Tomar, L, R) :-
 tablero(K, T) :-
     K > 0,
     length(T, 5),
-    maplist(flipLength(K), T). %! Se puede? Consultar.
+    maplist(flipLength(K), T). 
 
 flipLength(K,L):- length(L,K).
 
