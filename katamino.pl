@@ -93,11 +93,11 @@ ubicarPieza(T, I) :-pieza(I,P),coordenadas(T,C), %!pasar a tamaño
 
 % ubicarPiezas(+Tablero, +Poda, +Identificadores)
 ubicarPiezas(_, _, []).
-ubicarPiezas(T, P, [H|R]):-ubicarPieza(T,H),poda(P,T),ubicarPiezas(T,P,R).
+ubicarPiezas(T, P, [H|R]):- poda(P,T), ubicarPieza(T,H), ubicarPiezas(T,P,R).
 
 % poda(+P,+T)
 poda(sinPoda,_).
-% poda(P,T)
+poda(podaMod5, T) :- todosGruposLibresModulo5(T).
 
 %* Ejercicio 9: Llenar Tablero
 
@@ -119,9 +119,13 @@ cantSoluciones(Poda, Columnas, N) :-findall(T, llenarTablero(Poda, Columnas, T),
 
 %* Ejercicio 11: Optimización
 
-poda(podaMod5, T) :- todosGruposLibresModulo5(T).
+%todosGruposLibresModulo5(+T)  
+todosGruposLibresModulo5(T) :- findall(C, coordenadaLibre(C, T), L1),
+                               agrupar(L1, G), maplist(lenghtModulo5, G). 
 
-todosGruposLibresModulo5(T) :-  
+%lenghtModulo5(+L)
+lenghtModulo5(L) :- length(L, N), N mod 5 =:= 0.
 
 %coordenadaLibre(+C, +T)
-coordenadaLibre(C, T) :- 
+coordenadaLibre((I,J), T) :- coordenadas((i,j),T), nth1(I, T, Fila),
+                            nth1(J, Fila, Celda), var(Celda).
