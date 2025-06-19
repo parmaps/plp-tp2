@@ -84,7 +84,7 @@ anchoTablero([H|T], I, ANCHO, [L1|L2]) :- sublista(I, ANCHO, H, L1), anchoTabler
 %* Ejercicio 7: Ubicar pieza
 
 % ubicarPieza(+Tablero, +Identificador)
-ubicarPieza(T, I) :-pieza(I,P),coordenadas(T,C), %!pasar a tamaño
+ubicarPieza(T, I) :-pieza(I,P),coordenadas(T,C),
                     tamano(P,ALTO,ANCHO),
                     seccionTablero(T,ALTO,ANCHO,C,P).
 
@@ -109,33 +109,33 @@ llenarTablero(P, C, T) :- tablero(C,T), kPiezas(C,L), ubicarPiezas(T,P,L).
 cantSoluciones(Poda, Columnas, N) :-findall(T, llenarTablero(Poda, Columnas, T), TS),
                                     length(TS, N).
 
+%* Ejercicio 11: Optimización
+
+todosGruposLibresModulo5(T) :-
+    findall(C, coordenadaLibre(C, T), L1),
+    agrupar(L1, Grupos),
+    \+ ( member(G, Grupos), \+ lenghtModulo5(G) ).
+
+%lenghtModulo5(+L)
+lenghtModulo5(L) :- length(L, N), N mod 5 =:= 0.
+
+%coordenadaLibre(+C, +T)
+coordenadaLibre((I,J), T) :- coordenadas(T,(I,J)), nth1(I, T, Fila),
+                            nth1(J, Fila, Celda), var(Celda).
+
+
 % ?- time(cantSoluciones(sinPoda, 3, N)).
 % 21,394,045 inferences, 0.771 CPU in 0.774 seconds (100% CPU, 27748693 Lips)
+% N = 28.
+
+% ?- time(cantSoluciones(podaMod5, 3, N)).
+% 17,496,554 inferences, 0.782 CPU in 0.784 seconds (100% CPU, 22375002 Lips)
 % N = 28.
 
 % ?- time(cantSoluciones(sinPoda, 4, N)).
 % 814,452,007 inferences, 28.989 CPU in 29.095 seconds (100% CPU, 28095442 Lips)
 % N = 200.
 
-%* Ejercicio 11: Optimización
-
-%todosGruposLibresModulo5(+T)  
-%todosGruposLibresModulo5(T) :- findall(C, coordenadaLibre(C, T), L1),
-%                               agrupar(L1, G), maplist(lenghtModulo5, G). 
-
-todosGruposLibresModulo5(T) :-
-    findall(C, coordenadaLibre(C, T), L1),
-   agrupar(L1, Grupos),
-   \+ ( member(G, Grupos), \+ lenghtModulo5(G) ).
-
-%lenghtModulo5(+L)
-lenghtModulo5(L) :- length(L, N), N mod 5 =:= 0.
-
-%coordenadaLibre(+C, +T)
-%coordenadaLibre((I,J), T) :- coordenadas((i,j),T), nth1(I, T, Fila),
-%                            nth1(J, Fila, Celda), var(Celda).
-
-%coordenadaLibre(+C, +T)
-coordenadaLibre((I,J), T) :- coordenadas(T,(I,J)), nth1(I, T, Fila),
-                            nth1(J, Fila, Celda), var(Celda).
-
+% ?- time(cantSoluciones(podaMod5, 4, N)).
+% 359,498,981 inferences, 16.369 CPU in 16.410 seconds (100% CPU, 21962313 Lips)
+% N = 200.
