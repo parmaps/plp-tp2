@@ -120,12 +120,22 @@ cantSoluciones(Poda, Columnas, N) :-findall(T, llenarTablero(Poda, Columnas, T),
 %* Ejercicio 11: Optimización
 
 %todosGruposLibresModulo5(+T)  
-todosGruposLibresModulo5(T) :- findall(C, coordenadaLibre(C, T), L1),
-                               agrupar(L1, G), maplist(lenghtModulo5, G). 
+%todosGruposLibresModulo5(T) :- findall(C, coordenadaLibre(C, T), L1),
+%                               agrupar(L1, G), maplist(lenghtModulo5, G). 
+
+todosGruposLibresModulo5(T) :-
+    findall(C, coordenadaLibre(C, T), L1),
+   agrupar(L1, Grupos),
+   \+ ( member(G, Grupos), \+ lenghtModulo5(G) ).
 
 %lenghtModulo5(+L)
 lenghtModulo5(L) :- length(L, N), N mod 5 =:= 0.
 
 %coordenadaLibre(+C, +T)
-coordenadaLibre((I,J), T) :- coordenadas((i,j),T), nth1(I, T, Fila),
+%coordenadaLibre((I,J), T) :- coordenadas((i,j),T), nth1(I, T, Fila),
+%                            nth1(J, Fila, Celda), var(Celda).
+
+%coordenadaLibre(+C, +T)
+coordenadaLibre((I,J), T) :- coordenadas(T,(I,J)), nth1(I, T, Fila),
                             nth1(J, Fila, Celda), var(Celda).
+
